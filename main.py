@@ -15,4 +15,5 @@ if __name__ == '__main__':
         return x ** 0.5
 
 
-    print(calculate_square_root(25))
+    result = calculate_square_root(25)
+    print(result)
