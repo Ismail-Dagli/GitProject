@@ -1,19 +1,23 @@
-if __name__ == '__main__':
-    def calculate_square_root(x):
-        """
-        Calculate the square root of a number using the exponentiation operator.
+import numpy as np
+from itertools import combinations
 
-        This function calculates the square root of a given number by raising it
-        to the power of 0.5. The input number must be non-negative, as this
-        method does not support complex numbers.
+# Gegebene Prüfmatrix H
+H = np.array([
+    [1, 0, 0, 0, 1],
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 1, 1]
+])
 
-        :param x: A non-negative number for which the square root will be calculated.
-        :type x: float
-        :return: The square root of the input number.
-        :rtype: float
-        """
-        return x ** 0.5
+# Funktion, um den Mindest-Hamming-Abstand basierend auf linear abhängigen Spalten zu berechnen
+def min_hamming_distance(H):
+    n = H.shape[1]  # Anzahl der Spalten
+    for r in range(2, n + 1):  # Anzahl der zu prüfenden Spaltenkombinationen
+        for cols in combinations(range(n), r):
+            submatrix = H[:, cols]
+            if np.linalg.matrix_rank(submatrix) < r:
+                return r
+    return n
 
-
-    result = calculate_square_root(25)
-    print(result)
+# Mindest-Hamming-Abstand berechnen
+d_min = min_hamming_distance(H)
+print(f"Der Mindest-Hamming-Abstand ist: {d_min}")
